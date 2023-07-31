@@ -11,7 +11,6 @@ public class CreditLimitEnquiryValidator {
 	public void validateRequest(EnquiryRequest enquiryRequest) throws CreditLimitEnquiryRequestInvalidException {
 		// TODO validate the request . if request is valid nothing return 
 		
-		System.out.println("promo code"+ enquiryRequest.getPromocode());
 		if(enquiryRequest.getPromocode() == null || enquiryRequest.getPromocode().isEmpty() || enquiryRequest.getPromocode().length() < 11 ) {
 			
 			throw new CreditLimitEnquiryRequestInvalidException("enq001", "Invalid Promo Code ");

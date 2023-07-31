@@ -1,5 +1,8 @@
 package com.tesco.enquiry.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,8 @@ public class CreditLimitEnquiryController {
 	@Autowired
 	ICreditLimitEnquiryService creditLimitService ;
 	
+	 private static final Logger logger = LoggerFactory.getLogger(CreditLimitEnquiryController.class);
+	
 	@GetMapping("/enquiry/{promocode}")
 	@ResponseBody
 	public ResponseEntity<EnquiryResponse>	enquiry(@PathVariable("promocode") String promocode ,
@@ -31,6 +36,12 @@ public class CreditLimitEnquiryController {
 			                            @RequestHeader("channel_id") String channel_id ,
 			                            @RequestHeader("message_ts") String messageTimeStamp ,
 			                            @RequestHeader("request_id") String request_id ) {
+		MDC.put("promocode", promocode);
+		MDC.put("request_id", request_id);
+		MDC.put("client_id", client_id);
+		//write info logs
+		logger.debug("Enter a Enquiry Method");
+		logger.info("i/P=>"+request_id);
 		//1 Get Request From Consumer 
 	
 		EnquiryRequest enquiryRequest = new EnquiryRequest();
@@ -48,9 +59,8 @@ public class CreditLimitEnquiryController {
 		
 		//call Service Call and get Response 
 	EnquiryResponse	enquiryResponse = creditLimitService.enquiry(enquiryRequest);
-		
-		
-		
+	 logger.debug("Exit the Enquiry Method");
+	 logger.info("Exit the Enquiry Method");
 		return new ResponseEntity(enquiryResponse , HttpStatus.OK);
 	}
 
