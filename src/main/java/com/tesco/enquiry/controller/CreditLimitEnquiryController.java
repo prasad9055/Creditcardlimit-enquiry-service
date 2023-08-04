@@ -1,5 +1,11 @@
 package com.tesco.enquiry.controller;
 
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tesco.enquiry.encrypt.StringToEncrypt;
 import com.tesco.enquiry.model.EnquiryRequest;
 import com.tesco.enquiry.model.EnquiryResponse;
 import com.tesco.enquiry.service.ICreditLimitEnquiryService;
@@ -35,10 +42,11 @@ public class CreditLimitEnquiryController {
 			                            @RequestHeader("client_id") String client_id ,
 			                            @RequestHeader("channel_id") String channel_id ,
 			                            @RequestHeader("message_ts") String messageTimeStamp ,
-			                            @RequestHeader("request_id") String request_id ) {
+			                            @RequestHeader("request_id") String request_id ){
 		MDC.put("promocode", promocode);
 		MDC.put("request_id", request_id);
 		MDC.put("client_id", client_id);
+		
 		//write info logs
 		logger.debug("Enter a Enquiry Method");
 		logger.info("i/P=>"+request_id);
@@ -58,10 +66,13 @@ public class CreditLimitEnquiryController {
 		
 		
 		//call Service Call and get Response 
-	EnquiryResponse	enquiryResponse = creditLimitService.enquiry(enquiryRequest);
+	String encryptData = creditLimitService.enquiry(enquiryRequest);
+
+	
+	
 	 logger.debug("Exit the Enquiry Method");
 	 logger.info("Exit the Enquiry Method");
-		return new ResponseEntity(enquiryResponse , HttpStatus.OK);
+		return new ResponseEntity(encryptData , HttpStatus.OK);
 	}
 
 }
