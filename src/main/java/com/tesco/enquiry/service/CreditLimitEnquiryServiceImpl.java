@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import com.tesco.enquiry.model.EnquiryDaoResponse;
 import com.tesco.enquiry.model.EnquiryRequest;
 import com.tesco.enquiry.model.EnquiryResponse;
 
+
 @Service
 public class CreditLimitEnquiryServiceImpl implements ICreditLimitEnquiryService {
 
@@ -29,7 +32,8 @@ public class CreditLimitEnquiryServiceImpl implements ICreditLimitEnquiryService
 
 	@Autowired
 	EnquiryDaoRequest enquiryDaoRequest;
-
+ private static final Logger logger = LoggerFactory.getLogger(CreditLimitEnquiryServiceImpl.class);
+	 
 	public String enquiry(EnquiryRequest enquiryRequest){
 		// TODO Auto-generated method stub
 		enquiryDaoRequest.setPromocode(enquiryRequest.getPromocode());
@@ -54,8 +58,11 @@ public class CreditLimitEnquiryServiceImpl implements ICreditLimitEnquiryService
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			 plainJson = mapper.writeValueAsString(enquiryResponse);
+			 logger.info("================Before Encrypt Data ============== %n"+plainJson);
 			 StringToEncrypt ste = new StringToEncrypt();
 			 plainJson =  ste.encrypt(plainJson);
+		//	 logger.info("================After Encrypt Data ============== %n"+plainJson);
+				
 			 
 		} catch (IOException | UnrecoverableKeyException | KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
 			// TODO Auto-generated catch block

@@ -42,8 +42,6 @@ public class StringToEncrypt {
 
 			encrypted = new JWEBuilder().contentBytes(requestData.getBytes()).RSA1_5((RSAPublicKey) publicKey);
 
-			System.out.println(encrypted);
-		
 		
 	}
 	        return encrypted ;

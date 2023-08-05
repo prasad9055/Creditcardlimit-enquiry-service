@@ -2,13 +2,13 @@
 <configuration>
 
  
- <!--  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+ <appender name="CONSOLEOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>
        %d{dd-MM-yyyy HH:mm:ss.SSS}- [%M]- [%-5level] -[promocode:%X{promocode}]- [request_id:%X{request_id}]-[client_id:%X{client_id}]-[%msg]%n
   </pattern>
     </encoder>
-  </appender>  -->
+  </appender> 
   
    <property name="LOG_PATH" value="logs"/>
     <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
@@ -39,6 +39,9 @@
   <appender-ref ref="ERROR_OUT" />
 </logger>
 
+ <logger name="com.tesco.enquiry"   additivity="false" level="debug">
+  <appender-ref ref="CONSOLEOUT" />
+</logger>
  
   <root level="info">
     <appender-ref ref="STDOUT"/>
