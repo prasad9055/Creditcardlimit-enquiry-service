@@ -1,5 +1,5 @@
 package com.tesco.enquiry.model;
 
-public class EnquiryDaoResponse {
+public class CreditLimitRequest {
 
 }
